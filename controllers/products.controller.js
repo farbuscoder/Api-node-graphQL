@@ -63,7 +63,7 @@ export const modifyProduct = async (req, res, next) => {
   }
 };
 
-//MODIFICAR PRODUCTO
+//ELIMINAR PRODUCTO
 export const deleteProduct = async (req, res, next) => {
   try {
     const product = await Product.findById(req.params.id);
