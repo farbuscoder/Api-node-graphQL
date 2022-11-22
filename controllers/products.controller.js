@@ -4,11 +4,11 @@ import Product from "../models/products.js";
 
 export const addProduct = async (req, res, next) => {
   const newProduct = new Product({ ...req.body });
-  console.log(newProduct);
   try {
     const savedProduct = await newProduct.save();
     res.status(200).json(savedProduct);
   } catch (error) {
+    res.status(404).json("El producto no fue agregado");
     next(error);
   }
 };
