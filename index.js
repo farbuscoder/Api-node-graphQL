@@ -2,7 +2,8 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
-import productRoutes from "./routes/products.route.js";
+import palettesRoutes from "./routes/palettes.route.js";
+import authRoutes from "./routes/auth.routes.js";
 
 const app = express();
 dotenv.config();
@@ -20,7 +21,8 @@ const connect = () => {
 
 app.use(express.json());
 app.use(cors());
-app.use("/api/products", productRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/palettes", palettesRoutes);
 
 app.use((err, req, res, next) => {
   const status = err.status || 500;
