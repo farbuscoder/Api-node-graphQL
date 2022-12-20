@@ -4,12 +4,14 @@ import dotenv from "dotenv";
 import cors from "cors";
 import palettesRoutes from "./routes/palettes.route.js";
 import authRoutes from "./routes/auth.routes.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 dotenv.config();
 
 const connect = () => {
   mongoose
+    .set("strictQuery", true)
     .connect(process.env.MONGO_DB)
     .then(() => {
       console.log("connected to DB");
@@ -19,8 +21,16 @@ const connect = () => {
     });
 };
 
+//MIDDLEWARES
+app.use(cookieParser());
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: process.env.FRONTEND_URL ?? "http://localhost:3000",
+    optionsSuccessStatus: 200,
+  })
+);
 app.use("/api/auth", authRoutes);
 app.use("/api/palettes", palettesRoutes);
 

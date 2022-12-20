@@ -7,9 +7,10 @@ export const addPalette = async (req, res, next) => {
   try {
     const savedPalette = await newPalette.save();
     res.status(200).json(savedPalette);
+    next();
   } catch (error) {
     res.status(404).json("El palette no fue agregado");
-    next(error);
+    //next(error);
   }
 };
 

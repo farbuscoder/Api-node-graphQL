@@ -6,6 +6,7 @@ import {
   getPalettes,
   modifyPalette,
 } from "../controllers/palettes.controller.js";
+import { checkToken } from "../checkToken.js";
 
 const router = express.Router();
 
@@ -13,7 +14,7 @@ const router = express.Router();
 router.get("/:id", getPaletteById);
 
 //Create a Palette
-router.post("/add", addPalette);
+router.post("/add", checkToken, addPalette);
 
 //Modify a Palette
 router.put("/:id", modifyPalette);

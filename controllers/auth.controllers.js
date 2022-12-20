@@ -65,10 +65,16 @@ export const signIn = async (req, res, next) => {
     );
 
     res
+      .cookie("access_token_weColor", token, {
+        httpOnly: true,
+      })
       .status(201)
       .json({ user: existingUser, token: token, message: "User logged" });
+
+    next();
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Something went wrong" });
+    next();
   }
 };
