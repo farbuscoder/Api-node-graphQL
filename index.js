@@ -5,6 +5,7 @@ import cors from "cors";
 import palettesRoutes from "./routes/palettes.route.js";
 import authRoutes from "./routes/auth.routes.js";
 import cookieParser from "cookie-parser";
+import userRoutes from "./routes/user.routes.js";
 
 const app = express();
 dotenv.config();
@@ -33,6 +34,7 @@ app.use(
 );
 app.use("/api/auth", authRoutes);
 app.use("/api/palettes", palettesRoutes);
+app.use("/api/users", userRoutes);
 
 app.use((err, req, res, next) => {
   const status = err.status || 500;

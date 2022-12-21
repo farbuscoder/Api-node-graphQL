@@ -4,7 +4,7 @@ const PaletteSchema = new mongoose.Schema(
   {
     userId: {
       type: String,
-      requited: true,
+      required: true,
     },
     title: {
       type: String,
@@ -19,6 +19,14 @@ const PaletteSchema = new mongoose.Schema(
       default: [],
     },
     likes: {
+      type: [String],
+      default: [],
+    },
+    likesNumber: {
+      type: Number,
+      default: 0,
+    },
+    tags: {
       type: [String],
       default: [],
     },

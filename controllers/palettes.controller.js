@@ -10,6 +10,7 @@ export const addPalette = async (req, res, next) => {
     next();
   } catch (error) {
     res.status(404).json("El palette no fue agregado");
+    console.log(error);
     //next(error);
   }
 };
@@ -30,7 +31,7 @@ export const getPaletteById = async (req, res, next) => {
 
 export const getPalettes = async (req, res, next) => {
   try {
-    const palettes = await Palette.aggregate([{ $sample: { size: 20 } }]);
+    const palettes = await Palette.aggregate([{ $sample: { size: 30 } }]);
     res.status(200).json(palettes);
   } catch (error) {
     console.log(error);
@@ -81,3 +82,46 @@ export const deletePalette = async (req, res, next) => {
     console.log(error);
   }
 };
+
+//OBTENER PALETTES CON MAS LIKES
+export const trend = async (req, res, next) => {
+  try {
+    const palettes = await Palette.find().sort({ likesNumber: -1 });
+    res.status(201).json(palettes);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
+//OBTENER PALETTES POR TAGS
+
+export const getPaletteByTag = async (req, res, next) => {
+  const tags = req.query.tags?.split(",");
+
+  try {
+    const palettes = await Palette.find({ tags: { $in: tags } }).limit(20);
+    res.status(201).json(palettes);
+  } catch (error) {
+    next(err);
+  }
+};
+
+// BUSCAR PALETTE POR TAG
+
+export const searchPaletteTag = async (req, res, next) => {
+  const query = req.query.q;
+  console.log(query);
+  //const tags = req.query.tags.split(",");
+
+  try {
+    const palettes = await Palette.find({
+      tags: { $regex: query },
+    }).limit(40);
+    res.status(201).json(palettes);
+  } catch (error) {
+    next(error);
+  }
+};
+
+//AGREGAR ORDENACION POR FECHA
