@@ -1,4 +1,5 @@
 import Palette from "../models/palettes.js";
+import { createError } from "../../error.js";
 
 // AGREGAR NUEVO Palette
 

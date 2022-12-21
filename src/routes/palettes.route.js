@@ -9,7 +9,7 @@ import {
   getPaletteByTag,
   searchPaletteTag,
 } from "../controllers/palettes.controller.js";
-import { checkToken } from "../checkToken.js";
+import { checkToken } from "../../checkToken.js";
 
 const router = express.Router();
 

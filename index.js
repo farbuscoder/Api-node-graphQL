@@ -2,10 +2,10 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
-import palettesRoutes from "./routes/palettes.route.js";
-import authRoutes from "./routes/auth.routes.js";
+import palettesRoutes from "./src/routes/palettes.route.js";
+import authRoutes from "./src/routes/auth.routes.js";
 import cookieParser from "cookie-parser";
-import userRoutes from "./routes/user.routes.js";
+import userRoutes from "./src/routes/user.routes.js";
 
 const app = express();
 dotenv.config();

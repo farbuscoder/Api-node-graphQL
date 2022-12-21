@@ -1,5 +1,5 @@
 import express from "express";
-import { checkToken } from "../checkToken.js";
+import { checkToken } from "../../checkToken.js";
 import {
   getUserById,
   updateUser,

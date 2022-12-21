@@ -1,6 +1,6 @@
 import User from "../models/users.js";
 import Palette from "../models/palettes.js";
-import { createError } from "../error.js";
+import { createError } from "../../error.js";
 
 //UPDATE AN USER BY PARAMS ID
 export const updateUser = async (req, res, next) => {
