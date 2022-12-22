@@ -33,9 +33,7 @@ export const signUp = async (req, res, next) => {
       process.env.SECRET_KEY
     );
 
-    res
-      .status(201)
-      .json({ user: result, token: token, message: "User registered" });
+    res.status(201).json({ user: result, message: "User registered" });
   } catch (error) {
     console.log(error.response.data);
     res.status(500).json({ message: "Something went wrong" });
@@ -71,7 +69,7 @@ export const signIn = async (req, res, next) => {
         secure: true,
       })
       .status(201)
-      .json({ user: existingUser, token: token, message: "User logged" });
+      .json({ user: existingUser, message: "User logged" });
 
     next();
   } catch (error) {
