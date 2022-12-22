@@ -8,6 +8,8 @@ import cookieParser from "cookie-parser";
 import userRoutes from "./src/routes/user.routes.js";
 
 const app = express();
+const debug = require("debug")("app:server");
+
 dotenv.config();
 
 const connect = () => {
@@ -52,5 +54,5 @@ app.get("/", (req, res) => {
 
 app.listen(8500, () => {
   connect();
-  console.log("Conectado al server, puerto: 8500");
+  debug("Conectado al server, puerto: 8500");
 });
