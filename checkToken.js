@@ -3,6 +3,8 @@ import jwt from "jsonwebtoken";
 
 export const checkToken = (req, res, next) => {
   const token = req.cookies.access_token_weColor;
+  const req = req;
+  console.log(req);
   console.log(token);
 
   if (!token) return next(createError(401, "You are not authenticated"));
