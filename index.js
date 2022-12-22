@@ -6,10 +6,9 @@ import palettesRoutes from "./src/routes/palettes.route.js";
 import authRoutes from "./src/routes/auth.routes.js";
 import cookieParser from "cookie-parser";
 import userRoutes from "./src/routes/user.routes.js";
+import debug from "debug";
 
 const app = express();
-const debug = require("debug")("app:server");
-
 dotenv.config();
 
 const connect = () => {
