@@ -67,6 +67,8 @@ export const signIn = async (req, res, next) => {
     res
       .cookie("access_token_weColor", token, {
         httpOnly: true,
+        sameSite: "none",
+        secure: true,
       })
       .status(201)
       .json({ user: existingUser, token: token, message: "User logged" });
