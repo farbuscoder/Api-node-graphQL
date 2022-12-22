@@ -9,7 +9,8 @@
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^4.13.0",
     "mongoose": "^6.7.2",
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "vercel": "^28.5.6"
   },
   "name": "api-rest-wecolor",
   "description": "WeColor backend",

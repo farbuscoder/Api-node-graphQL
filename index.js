@@ -46,6 +46,10 @@ app.use((err, req, res, next) => {
   });
 });
 
+app.get("/", (req, res) => {
+  res.send("This server is Connected");
+});
+
 app.listen(8500, () => {
   connect();
   console.log("Conectado al server, puerto: 8500");
