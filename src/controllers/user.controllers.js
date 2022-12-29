@@ -75,3 +75,31 @@ export const likeAPalette = async (req, res, next) => {
     }
   }
 };
+
+// ADD/REMOVE A PALETTE FROM FAVORITES
+export const addOrRemoveFromFavorites = async (req, res, next) => {
+  const id = req.user.id;
+  const paletteId = req.params.paletteId;
+  const user = await User.findById(id);
+
+  //If the palette is already added as a favourite then the function pulls the paletteId from the array.
+  if (user.favs.includes(paletteId)) {
+    await User.findByIdAndUpdate(id, {
+      $pull: { favs: paletteId },
+    });
+    res
+      .status(201)
+      .json({ message: "El palette ha sido quitado de favoritos" });
+  } else {
+    try {
+      await User.findByIdAndUpdate(id, {
+        $addToSet: { favs: paletteId },
+      });
+      res
+        .status(201)
+        .json({ message: "El palette ha sido añadidos a favoritos" });
+    } catch (error) {
+      return next(createError(403, "Something went wrong!"));
+    }
+  }
+};

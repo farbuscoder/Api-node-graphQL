@@ -5,6 +5,7 @@ import {
   updateUser,
   deleteUser,
   likeAPalette,
+  addOrRemoveFromFavorites,
 } from "../controllers/user.controllers.js";
 
 const router = express.Router();
@@ -20,5 +21,8 @@ router.delete("/:id", checkToken, deleteUser);
 
 //Like a palette
 router.put("/like/:paletteId", checkToken, likeAPalette);
+
+//Add/ remove a palette from favorites
+router.put("/favorites/:paletteId", checkToken, addOrRemoveFromFavorites);
 
 export default router;
