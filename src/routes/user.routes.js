@@ -1,5 +1,4 @@
 import express from "express";
-import { checkToken } from "../../checkToken.js";
 import {
   getUserById,
   updateUser,
@@ -7,6 +6,7 @@ import {
   likeAPalette,
   addOrRemoveFromFavorites,
 } from "../controllers/user.controllers.js";
+import { checkToken } from "../../checkToken.js";
 
 const router = express.Router();
 

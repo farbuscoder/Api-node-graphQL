@@ -79,7 +79,7 @@ export const likeAPalette = async (req, res, next) => {
 
 // ADD/REMOVE A PALETTE FROM FAVORITES
 export const addOrRemoveFromFavorites = async (req, res, next) => {
-  console.log(req);
+  console.log(req.user.id);
   const id = "63a24338ba1548d2c7a58a4a";
   const paletteId = req.params.paletteId;
   const user = await User.findById(id);
