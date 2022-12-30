@@ -20,7 +20,7 @@ router.put("/:id", checkToken, updateUser);
 router.delete("/:id", checkToken, deleteUser);
 
 //Like a palette
-router.put("/like/:paletteId", checkToken, likeAPalette);
+router.put("/like/:paletteId", likeAPalette);
 
 //Add/ remove a palette from favorites
 router.put("/favorites/:paletteId", checkToken, addOrRemoveFromFavorites);
