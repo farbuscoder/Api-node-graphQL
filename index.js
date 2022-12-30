@@ -25,6 +25,7 @@ const connect = () => {
 
 //MIDDLEWARES
 app.use(cookieParser());
+app.use(express.json());
 app.use(
   cors({
     credentials: true,
@@ -32,7 +33,6 @@ app.use(
     optionsSuccessStatus: 200,
   })
 );
-app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/palettes", palettesRoutes);
 app.use("/api/users", userRoutes);
