@@ -28,12 +28,7 @@ export const signUp = async (req, res, next) => {
       password: hashedPassword,
     });
 
-    const token = jwt.sign(
-      { email: result.email, id: result._id },
-      process.env.SECRET_KEY
-    );
-
-    res.status(201).json({ user: result, message: "User registered" });
+    res.status(201).send("User has been registered");
   } catch (error) {
     console.log(error.response.data);
     res.status(500).json({ message: "Something went wrong" });
@@ -62,6 +57,8 @@ export const signIn = async (req, res, next) => {
       process.env.SECRET_KEY
     );
 
+    const { password, ...others } = user._doc;
+
     res
       .cookie("access_token_weColor", token, {
         httpOnly: true,
@@ -69,7 +66,7 @@ export const signIn = async (req, res, next) => {
         secure: true,
       })
       .status(201)
-      .json({ user: existingUser, message: "User logged" });
+      .json(others);
 
     next();
   } catch (error) {
