@@ -48,9 +48,9 @@ export const getUserById = async (req, res, next) => {
 
 //LIKE A PALETTE
 export const likeAPalette = async (req, res, next) => {
-  console.log(req.user.id);
+  // console.log(req.user.id);
   console.log(req);
-  const id = "63a24338ba1548d2c7a58a4a";
+  const id = req.user.id;
   const paletteId = req.params.paletteId;
   const palette = await Palette.findById(paletteId);
 
@@ -81,7 +81,7 @@ export const likeAPalette = async (req, res, next) => {
 // ADD/REMOVE A PALETTE FROM FAVORITES
 export const addOrRemoveFromFavorites = async (req, res, next) => {
   console.log(req.user.id);
-  const id = "63a24338ba1548d2c7a58a4a";
+  const id = req.user.id;
   const paletteId = req.params.paletteId;
   const user = await User.findById(id);
 
