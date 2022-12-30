@@ -48,6 +48,7 @@ export const getUserById = async (req, res, next) => {
 
 //LIKE A PALETTE
 export const likeAPalette = async (req, res, next) => {
+  console.log(req.user.id);
   console.log(req);
   const id = "63a24338ba1548d2c7a58a4a";
   const paletteId = req.params.paletteId;
