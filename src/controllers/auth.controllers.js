@@ -28,7 +28,7 @@ export const signUp = async (req, res, next) => {
       password: hashedPassword,
     });
 
-    res.status(201).send("User has been registered");
+    res.status(201).json({ user: result, message: "User registered" });
   } catch (error) {
     console.log(error.response.data);
     res.status(500).json({ message: "Something went wrong" });
@@ -46,10 +46,7 @@ export const signIn = async (req, res, next) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const matchPassword = await bcrypt.compare(
-      req.body.password,
-      existingUser.password
-    );
+    const matchPassword = await bcrypt.compare(password, existingUser.password);
 
     if (!matchPassword) {
       return res.status(404).json({ message: "Invalid Credentials" });
@@ -60,8 +57,6 @@ export const signIn = async (req, res, next) => {
       process.env.SECRET_KEY
     );
 
-    const { password, ...others } = user._doc;
-
     res
       .cookie("access_token_weColor", token, {
         httpOnly: true,
@@ -69,7 +64,7 @@ export const signIn = async (req, res, next) => {
         secure: true,
       })
       .status(201)
-      .json(others);
+      .json({ user: existingUser, message: "User logged" });
 
     next();
   } catch (error) {
