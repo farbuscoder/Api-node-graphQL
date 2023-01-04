@@ -23,7 +23,7 @@ router.post("/add", checkToken, addPalette);
 router.put("/:id", checkToken, modifyPalette);
 
 //Delete a Palette
-router.delete("/:id", checkToken, deletePalette);
+router.delete("/:id", deletePalette);
 
 //Get all Palette
 router.get("/", getPalettes);
