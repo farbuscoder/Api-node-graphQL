@@ -41,6 +41,7 @@ export const deleteUserWithPasswordVerification = async (req, res, next) => {
     }
 
     if (matchPassword) {
+      deletePalettesFromDeletedUser(actualUser._id);
       await User.findByIdAndDelete(actualUser._id);
     }
 
@@ -51,6 +52,17 @@ export const deleteUserWithPasswordVerification = async (req, res, next) => {
     console.log(error);
     res.status(500).json({ message: "Something went wrong" });
     next();
+  }
+};
+
+// FINDING AND DELETING ALL PALETTES FROM A DELETED USER
+
+export const deletePalettesFromDeletedUser = async (actualUserId) => {
+  try {
+    //const actualUserPalettes = await Palette.find({ userId: actualUserId });
+    await Palette.deleteMany({ userId: actualUserId });
+  } catch (error) {
+    console.log(error.response);
   }
 };
 
