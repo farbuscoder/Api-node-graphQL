@@ -16,6 +16,7 @@ export const updateUser = async (req, res, next) => {
       );
       res.status(200).json({ user: updatedUser, message: "User Actualizado" });
     } catch (error) {
+      res.status(500).json({error:"Something went wrong"})
       next(error);
     }
   } else {
@@ -48,7 +49,7 @@ export const deleteUserWithPasswordVerification = async (req, res, next) => {
 
     next();
   } catch (error) {
-    console.log(error);
+
     res.status(500).json({ message: "Something went wrong" });
     next();
   }
@@ -72,10 +73,10 @@ export const deleteUser = async (req, res, next) => {
 
 export const getUsers = async (req, res, next) => {
   try {
-    const users = await User.aggregate([{ $sample: { size: 30 } }]);
+    const users = await User.aggregate([{ $sample: { size: 20 } }]);
     res.status(200).json(users);
   } catch (error) {
-    console.log(error);
+    return next(createError(403, "Something went wrong!"));
   }
 };
 
@@ -91,8 +92,6 @@ export const getUserById = async (req, res, next) => {
 
 //LIKE A PALETTE
 export const likeAPalette = async (req, res, next) => {
-  // console.log(req.user.id);
-  console.log(req);
   const id = req.user.id;
   const paletteId = req.params.paletteId;
   const palette = await Palette.findById(paletteId);
@@ -105,7 +104,7 @@ export const likeAPalette = async (req, res, next) => {
         likesNumber: -1,
       },
     });
-    res.status(201).json({ message: "El palette ha sido Deslikeado" });
+    res.status(201).json({ message: "Palette has been disliked" });
   } else {
     try {
       await Palette.findByIdAndUpdate(paletteId, {
@@ -114,7 +113,7 @@ export const likeAPalette = async (req, res, next) => {
           likesNumber: 1,
         },
       });
-      res.status(201).json({ message: "El palette ha sido likeado" });
+      res.status(201).json({ message: "Palette has been liked" });
     } catch (error) {
       return next(createError(403, "Something went wrong!"));
     }
@@ -123,7 +122,7 @@ export const likeAPalette = async (req, res, next) => {
 
 // ADD/REMOVE A PALETTE FROM FAVORITES
 export const addOrRemoveFromFavorites = async (req, res, next) => {
-  console.log(req.user.id);
+
   const id = req.user.id;
   const paletteId = req.params.paletteId;
   const user = await User.findById(id);
@@ -135,7 +134,7 @@ export const addOrRemoveFromFavorites = async (req, res, next) => {
     });
     res
       .status(201)
-      .json({ message: "El palette ha sido quitado de favoritos" });
+      .json({ message: "Palette has been removed from favorites" });
   } else {
     try {
       await User.findByIdAndUpdate(id, {
@@ -143,7 +142,7 @@ export const addOrRemoveFromFavorites = async (req, res, next) => {
       });
       res
         .status(201)
-        .json({ message: "El palette ha sido añadidos a favoritos" });
+        .json({ message: "Palette has been added to favorites" });
     } catch (error) {
       return next(createError(403, "Something went wrong!"));
     }
