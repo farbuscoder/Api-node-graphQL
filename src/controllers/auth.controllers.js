@@ -63,7 +63,7 @@ export const signIn = async (req, res, next) => {
         secure: true,
       })
       .status(201)
-      .json({ user: existingUser, message: "User logged" });
+      .json({ user: existingUser, token: token, message: "User logged" });
 
     next();
   } catch (error) {

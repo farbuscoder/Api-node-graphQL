@@ -3,14 +3,14 @@ import { createError } from "../../error.js";
 
 // AGREGAR NUEVO Palette
 
-export const addPalette = async (req, res, next) => {
+export const savePalette = async (req, res, next) => {
   const newPalette = new Palette({ ...req.body });
   try {
     const savedPalette = await newPalette.save();
     res.status(200).json(savedPalette);
     next();
   } catch (error) {
-    res.status(404).json({message:"The palette hasnt been saved"});
+    res.status(404).json({ message: "The palette hasnt been saved" });
     console.log(error);
     //next(error);
   }
@@ -24,7 +24,9 @@ export const getPaletteById = async (req, res, next) => {
 
     res.status(200).json(palette);
   } catch (error) {
-    res.status(500).json({error:"Can not find the palette or the id is wrong"})
+    res
+      .status(500)
+      .json({ error: "Can not find the palette or the id is wrong" });
     next(error);
   }
 };
@@ -36,7 +38,7 @@ export const getPalettes = async (req, res, next) => {
     const palettes = await Palette.aggregate([{ $sample: { size: 15 } }]);
     res.status(200).json(palettes);
   } catch (error) {
-    res.status(405).json({message:"Cant get all the palettes"})
+    res.status(405).json({ message: "Cant get all the palettes" });
   }
 };
 
@@ -60,7 +62,9 @@ export const modifyPalette = async (req, res, next) => {
         message: "The palette has been modified succesfully",
       });
     } else {
-      return res.status(404).json({ error: "Can not find the palette your are looking for" });
+      return res
+        .status(404)
+        .json({ error: "Can not find the palette your are looking for" });
     }
   } catch (error) {
     console.log(error);
@@ -81,7 +85,7 @@ export const deletePalette = async (req, res, next) => {
       return res.status(404).json({ error: "Can not find the palette" });
     }
   } catch (error) {
-    return res.status(500).json({error:"Something went wrong"})
+    return res.status(500).json({ error: "Something went wrong" });
   }
 };
 
@@ -103,9 +107,14 @@ export const getPaletteByTag = async (req, res, next) => {
 
   try {
     const palettes = await Palette.find({ tags: { $in: tags } }).limit(20);
-    res.status(201).json(palettes);
+
+    if (palettes.length == 0) {
+      res.json({ messagae: "Cant find palettes that match your query" });
+    } else {
+      res.status(201).json(palettes);
+    }
   } catch (error) {
-    res.status(500).json({error:"Something went wrong"})
+    res.status(500).json({ error: "Something went wrong" });
     next(err);
   }
 };
@@ -114,16 +123,18 @@ export const getPaletteByTag = async (req, res, next) => {
 
 export const searchPaletteTag = async (req, res, next) => {
   const query = req.query.q;
-  console.log(query);
-  //const tags = req.query.tags.split(",");
 
   try {
     const palettes = await Palette.find({
-      tags: { $regex: query },
+      colors: { $regex: query },
     }).limit(40);
-    res.status(201).json(palettes);
+    if (palettes.length == 0) {
+      res.json({ message: "Cant find palettes that match your query" });
+    } else {
+      res.status(201).json(palettes);
+    }
   } catch (error) {
-    res.status(500).json({error:"Something went wrong"})
+    res.status(500).json({ error: "Something went wrong" });
     next(error);
   }
 };

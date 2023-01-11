@@ -1,6 +1,6 @@
 import express from "express";
 import {
-  addPalette,
+  savePalette,
   deletePalette,
   getPaletteById,
   getPalettes,
@@ -17,13 +17,13 @@ const router = express.Router();
 router.get("/:id", getPaletteById);
 
 //Create a Palette
-router.post("/add", checkToken, addPalette);
+router.post("/add", checkToken, savePalette);
 
 //Modify a Palette
 router.put("/:id", checkToken, modifyPalette);
 
 //Delete a Palette
-router.delete("/:id", deletePalette);
+router.delete("/:id", checkToken, deletePalette);
 
 //Get all Palette
 router.get("/", getPalettes);

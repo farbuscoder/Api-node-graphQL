@@ -7,16 +7,16 @@ import { createError } from "../../error.js";
 export const updateUser = async (req, res, next) => {
   if (req.params.id === req.user.id) {
     try {
-      const updatedUser = await User.findByIdAndUpdate(
+      const userUpdated = await User.findByIdAndUpdate(
         req.params.id,
         {
           $set: req.body,
         },
         { new: true }
       );
-      res.status(200).json({ user: updatedUser, message: "User Actualizado" });
+      res.status(200).json({ user: userUpdated, message: "User Updated" });
     } catch (error) {
-      res.status(500).json({error:"Something went wrong"})
+      res.status(500).json({ error: "Something went wrong" });
       next(error);
     }
   } else {
@@ -50,7 +50,6 @@ export const deleteUserWithPasswordVerification = async (req, res, next) => {
 
     next();
   } catch (error) {
-
     res.status(500).json({ message: "Something went wrong" });
     next();
   }
@@ -60,7 +59,6 @@ export const deleteUserWithPasswordVerification = async (req, res, next) => {
 
 export const deletePalettesFromDeletedUser = async (actualUserId) => {
   try {
-    //const actualUserPalettes = await Palette.find({ userId: actualUserId });
     await Palette.deleteMany({ userId: actualUserId });
   } catch (error) {
     console.log(error.response);
@@ -72,7 +70,7 @@ export const deleteUser = async (req, res, next) => {
   if (req.params.id === req.user.id) {
     try {
       await User.findByIdAndDelete(req.params.id);
-      res.status(200).json("User has been deleted");
+      res.status(200).json({ message: "User has been deleted" });
     } catch (error) {
       next(error);
     }
@@ -81,12 +79,15 @@ export const deleteUser = async (req, res, next) => {
   }
 };
 
-// CONSEGUIR TODOS LOS USERS
-
+// GET ALL THE USERS BY SAMPLES
 export const getUsers = async (req, res, next) => {
   try {
     const users = await User.aggregate([{ $sample: { size: 20 } }]);
-    res.status(200).json(users);
+    if (users.length == 0) {
+      res.json({ message: "There is no Users yet" });
+    } else {
+      res.status(200).json(users);
+    }
   } catch (error) {
     return next(createError(403, "Something went wrong!"));
   }
@@ -96,7 +97,11 @@ export const getUsers = async (req, res, next) => {
 export const getUserById = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id);
-    res.status(200).json(user);
+    if (!user) {
+      res.json({ message: "User do not exist" });
+    } else {
+      res.status(200).json(user);
+    }
   } catch (error) {
     return next(createError(403, "This user does not exist!"));
   }
@@ -134,7 +139,6 @@ export const likeAPalette = async (req, res, next) => {
 
 // ADD/REMOVE A PALETTE FROM FAVORITES
 export const addOrRemoveFromFavorites = async (req, res, next) => {
-
   const id = req.user.id;
   const paletteId = req.params.paletteId;
   const user = await User.findById(id);
@@ -152,9 +156,7 @@ export const addOrRemoveFromFavorites = async (req, res, next) => {
       await User.findByIdAndUpdate(id, {
         $addToSet: { favs: paletteId },
       });
-      res
-        .status(201)
-        .json({ message: "Palette has been added to favorites" });
+      res.status(201).json({ message: "Palette has been added to favorites" });
     } catch (error) {
       return next(createError(403, "Something went wrong!"));
     }
