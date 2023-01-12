@@ -1,7 +1,7 @@
 import Palette from "../models/palettes.js";
 import { createError } from "../../error.js";
 
-// AGREGAR NUEVO Palette
+// SAVE A NEW PALETTE
 
 export const savePalette = async (req, res, next) => {
   const newPalette = new Palette({ ...req.body });
@@ -16,7 +16,7 @@ export const savePalette = async (req, res, next) => {
   }
 };
 
-// CONSEGUIR UNA PALETTE POR ID
+// GET A PALETTE BY PARAM ID
 
 export const getPaletteById = async (req, res, next) => {
   try {
@@ -31,18 +31,18 @@ export const getPaletteById = async (req, res, next) => {
   }
 };
 
-// CONSEGUIR TODOS LOS PRODUCTOS
+// GET ALL PALETTES
 
 export const getPalettes = async (req, res, next) => {
   try {
-    const palettes = await Palette.aggregate([{ $sample: { size: 15 } }]);
+    const palettes = await Palette.find();
     res.status(200).json(palettes);
   } catch (error) {
     res.status(405).json({ message: "Cant get all the palettes" });
   }
 };
 
-//MODIFICAR PALETTE
+//UPDATE A PALLETE
 export const modifyPalette = async (req, res, next) => {
   try {
     const palette = await Palette.findById(req.params.id);
@@ -71,7 +71,7 @@ export const modifyPalette = async (req, res, next) => {
   }
 };
 
-//ELIMINAR PALETTE
+//DELETE A PALETTE BY PARAM ID
 export const deletePalette = async (req, res, next) => {
   try {
     const palette = await Palette.findById(req.params.id);
@@ -89,7 +89,7 @@ export const deletePalette = async (req, res, next) => {
   }
 };
 
-//OBTENER PALETTES CON MAS LIKES
+//GET MORE LIKED PALETTES
 export const trend = async (req, res, next) => {
   try {
     const palettes = await Palette.find().sort({ likesNumber: -1 });
@@ -100,7 +100,7 @@ export const trend = async (req, res, next) => {
   }
 };
 
-//OBTENER PALETTES POR TAGS
+// GET PALETTES BY TAG
 
 export const getPaletteByTag = async (req, res, next) => {
   const tags = req.query.tags?.split(",");
@@ -119,7 +119,7 @@ export const getPaletteByTag = async (req, res, next) => {
   }
 };
 
-// BUSCAR PALETTE POR TAG
+// SEARCH PALETTES BY TAG
 
 export const searchPaletteTag = async (req, res, next) => {
   const query = req.query.q;
@@ -139,4 +139,19 @@ export const searchPaletteTag = async (req, res, next) => {
   }
 };
 
-//AGREGAR ORDENACION POR FECHA
+//GET RECENT PALETTES
+
+export const getRecentPalettes = async (req, res, next) => {
+  try {
+    const recentPalettes = await sortPaletteFromRecentToOlder();
+
+    res.status(201).json(recentPalettes);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const sortPaletteFromRecentToOlder = async () => {
+  const list = await Palette.find();
+  return list.sort((a, b) => a.createdAt - b.createdAt);
+};

@@ -8,6 +8,7 @@ import {
   trend,
   getPaletteByTag,
   searchPaletteTag,
+  getRecentPalettes,
 } from "../controllers/palettes.controller.js";
 import { checkToken } from "../../checkToken.js";
 
@@ -36,5 +37,8 @@ router.get("/get/tags", getPaletteByTag);
 
 //Get palettes by searching a tag
 router.get("/get/search", searchPaletteTag);
+
+//Get recent palettes
+router.get("/get/recent/", getRecentPalettes);
 
 export default router;

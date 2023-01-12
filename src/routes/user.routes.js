@@ -7,6 +7,7 @@ import {
   addOrRemoveFromFavorites,
   deleteUserWithPasswordVerification,
   getUsers,
+  getFavorites,
 } from "../controllers/user.controllers.js";
 import { checkToken } from "../../checkToken.js";
 
@@ -33,5 +34,8 @@ router.put("/like/:paletteId", checkToken, likeAPalette);
 
 //Add/ remove a palette from favorites
 router.put("/favorites/:paletteId", checkToken, addOrRemoveFromFavorites);
+
+//Get favorites from user
+router.get("/get/favorites/:id", checkToken, getFavorites);
 
 export default router;

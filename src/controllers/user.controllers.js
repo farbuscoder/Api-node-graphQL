@@ -162,3 +162,28 @@ export const addOrRemoveFromFavorites = async (req, res, next) => {
     }
   }
 };
+
+//GET FAVORITES
+
+export const getFavorites = async (req, res, next) => {
+  const userId = req.params.id;
+
+  try {
+    const user = await User.findById(userId);
+    const favoritesFromUser = user.favs;
+    if (favoritesFromUser.length == 0) {
+      res.status(201).json({ message: "Favorite section is empty" });
+    } else {
+      const list = await Promise.all(
+        favoritesFromUser.map(async (id) => {
+          return await Palette.find({ _id: id });
+        })
+      );
+
+      return res.status(200).json(list.flat());
+    }
+  } catch (error) {
+    res.status(500).json(error);
+    next(error);
+  }
+};
