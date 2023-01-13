@@ -40,34 +40,50 @@ export const signIn = async (req, res, next) => {
   const { email, password } = req.body;
 
   try {
-    const existingUser = await User.findOne({ email: email });
-    if (!existingUser) {
-      return res.status(404).json({ message: "User not found" });
+    const existingUser = await findAndCheckExistingUser(email);
+
+    if (!(await comparePasswords(password, existingUser))) {
+      res.status(404).json({ message: "Invalid credentials" });
+    } else {
+      const token = await createToken(existingUser);
+
+      res
+        .cookie("access_token_weColor", token, {
+          httpOnly: true,
+          sameSite: "none",
+          secure: true,
+        })
+        .status(201)
+        .json({ user: existingUser, token: token, message: "User logged" });
+
+      next();
     }
-
-    const matchPassword = await bcrypt.compare(password, existingUser.password);
-
-    if (!matchPassword) {
-      return res.status(404).json({ message: "Invalid Credentials" });
-    }
-
-    const token = jwt.sign(
-      { email: existingUser.email, id: existingUser._id },
-      process.env.SECRET_KEY
-    );
-
-    res
-      .cookie("access_token_weColor", token, {
-        httpOnly: true,
-        sameSite: "none",
-        secure: true,
-      })
-      .status(201)
-      .json({ user: existingUser, token: token, message: "User logged" });
-
-    next();
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });
     next();
   }
+};
+
+const findAndCheckExistingUser = async (email) => {
+  const existingUser = await User.findOne({ email: email });
+  if (!existingUser) {
+    res.status(404).json({ message: "User not found" });
+  }
+
+  return existingUser;
+};
+
+const comparePasswords = async (password, existingUser) => {
+  const matchPassword = await bcrypt.compare(password, existingUser.password);
+
+  return matchPassword;
+};
+
+const createToken = async (existingUser) => {
+  const token = jwt.sign(
+    { email: existingUser.email, id: existingUser._id },
+    process.env.SECRET_KEY
+  );
+
+  return token;
 };
