@@ -153,5 +153,5 @@ export const getRecentPalettes = async (req, res, next) => {
 
 const sortPaletteFromRecentToOlder = async () => {
   const list = await Palette.find();
-  return list.sort((a, b) => a.createdAt - b.createdAt);
+  return list.sort((a, b) => b.createdAt - a.createdAt);
 };
