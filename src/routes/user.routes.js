@@ -8,6 +8,7 @@ import {
   deleteUserWithPasswordVerification,
   getUsers,
   getFavorites,
+  getSavedPalettes,
 } from "../controllers/user.controllers.js";
 import { checkToken } from "../../checkToken.js";
 
@@ -37,5 +38,8 @@ router.put("/favorites/:paletteId", checkToken, addOrRemoveFromFavorites);
 
 //Get favorites from user
 router.get("/get/favorites/:id", checkToken, getFavorites);
+
+//Get saved palettes from user
+router.get("/get/saved/:id", checkToken, getSavedPalettes);
 
 export default router;

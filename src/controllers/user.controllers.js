@@ -187,3 +187,23 @@ export const getFavorites = async (req, res, next) => {
     next(error);
   }
 };
+
+//Get save palettes from user
+
+export const getSavedPalettes = async (req, res, next) => {
+  const userId = req.params.id;
+
+  try {
+    const savedPalettes = await Palette.find({ userId: userId });
+
+    if (savedPalettes.length == 0) {
+      res.status(200).json({ message: "Palette store is empty" });
+    } else {
+      res.status(200).json(savedPalettes);
+    }
+    next();
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
+    next();
+  }
+};
