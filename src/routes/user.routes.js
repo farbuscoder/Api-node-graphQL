@@ -21,25 +21,25 @@ router.get("/find/:id", getUserById);
 router.get("/all/", getUsers);
 
 //Update user
-router.put("/:id", checkToken, updateUser);
+router.put("/:id", updateUser);
 
 //Delete user
-router.delete("/:id", checkToken, deleteUser);
+router.delete("/:id", deleteUser);
 
 //Delete user with password verification
 
 router.delete("/delete/account", deleteUserWithPasswordVerification);
 
 //Like a palette
-router.put("/like/:paletteId", checkToken, likeAPalette);
+router.put("/like/:paletteId", likeAPalette);
 
 //Add/ remove a palette from favorites
-router.put("/favorites/:paletteId", checkToken, addOrRemoveFromFavorites);
+router.put("/favorites/:paletteId", addOrRemoveFromFavorites);
 
 //Get favorites from user
-router.get("/get/favorites/:id", checkToken, getFavorites);
+router.get("/get/favorites/:id", getFavorites);
 
 //Get saved palettes from user
-router.get("/get/saved/:id", checkToken, getSavedPalettes);
+router.get("/get/saved/:id", getSavedPalettes);
 
 export default router;

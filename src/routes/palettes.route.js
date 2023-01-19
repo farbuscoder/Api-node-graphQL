@@ -18,13 +18,13 @@ const router = express.Router();
 router.get("/:id", getPaletteById);
 
 //Create a Palette
-router.post("/add", checkToken, savePalette);
+router.post("/add", savePalette);
 
 //Modify a Palette
-router.put("/:id", checkToken, modifyPalette);
+router.put("/:id", modifyPalette);
 
 //Delete a Palette
-router.delete("/:id", checkToken, deletePalette);
+router.delete("/:id", deletePalette);
 
 //Get all Palette
 router.get("/", getPalettes);
