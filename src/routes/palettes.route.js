@@ -9,6 +9,7 @@ import {
   getPaletteByTag,
   searchPaletteTag,
   getRecentPalettes,
+  generateNewColors,
 } from "../controllers/palettes.controller.js";
 import { checkToken } from "../../checkToken.js";
 
@@ -40,5 +41,8 @@ router.get("/get/search", searchPaletteTag);
 
 //Get recent palettes
 router.get("/get/recent/", getRecentPalettes);
+
+//Generate new colors
+router.get("/get/newcolors", generateNewColors);
 
 export default router;
