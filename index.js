@@ -14,9 +14,10 @@ dotenv.config();
 const connect = () => {
   mongoose
     .set("strictQuery", false)
-    .connect(process.env.MONGO_DB)
+    .connect(`${process.env.MONGO_DB}`)
     .then(() => {
       console.log("connected to DB");
+      console.log(process.env.MONGO_DB)
     })
     .catch((err) => {
       throw err;
@@ -28,7 +29,7 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-    origin: ["http://192.168.1.65:3000", "http://localhost:3000", "http://localhost:5173", "http://192.168.1.65:5173","http://127.0.0.1:5173"],
+    //origin: ["http://192.168.1.65:3000", "http://localhost:3000", "http://localhost:5173", "http://192.168.1.65:5173","http://127.0.0.1:5173"],
     optionsSuccessStatus: 200,
   })
 );
