@@ -15,7 +15,14 @@ const PaletteSchema = new mongoose.Schema(
       required: false,
     },
     colors: {
-      type: [String],
+      type: [{
+        hexPalette:String,
+        rgb:{
+          red:String,
+          green:String,
+          blue:String
+        }
+      }],
       default: [],
     },
     likes: {
