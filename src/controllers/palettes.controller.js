@@ -123,10 +123,9 @@ export const getPaletteByTag = async (req, res, next) => {
 
 export const searchPaletteTag = async (req, res, next) => {
   const query = req.query.q;
-
   try {
     const palettes = await Palette.find({
-      colors: { $elemMatch:{hexPalette:query} }
+      "colors": { $elemMatch:{"hexPalette":query} }
     }).limit(40);
     if (palettes.length == 0) {
       res.json({ message: "Cant find palettes that match your query" });
