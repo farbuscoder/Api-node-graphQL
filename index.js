@@ -39,6 +39,7 @@ app.use("/api/palettes", palettesRoutes);
 app.use("/api/users", userRoutes);
 
 app.use((err, req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
   const status = err.status || 500;
   const message = err.message || "Something went wrong!";
   return res.status(status).json({
