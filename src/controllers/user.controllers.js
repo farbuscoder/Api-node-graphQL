@@ -109,10 +109,10 @@ export const getUserById = async (req, res, next) => {
 
 //LIKE A PALETTE
 export const likeAPalette = async (req, res, next) => {
-  const id = req.user.id;
+  const id = req.body.user.id;
   const paletteId = req.params.paletteId;
   const palette = await Palette.findById(paletteId);
-
+  
   //If the palette has already been liked then the function pulls the userId from likes array.
   if (palette.likes.includes(id)) {
     await Palette.findByIdAndUpdate(paletteId, {
