@@ -109,7 +109,7 @@ export const getPaletteByTag = async (req, res, next) => {
     const palettes = await Palette.find({ tags: { $in: tags } }).limit(20);
 
     if (palettes.length == 0) {
-      res.json({ messagae: "Cant find palettes that match your query" });
+      res.json({ message: "Cant find palettes that match your query" });
     } else {
       res.status(201).json(palettes);
     }
