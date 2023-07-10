@@ -5,12 +5,14 @@ import { createError } from "../../error.js";
 
 //UPDATE AN USER BY PARAMS ID
 export const updateUser = async (req, res, next) => {
-  if (req.params.id === req.user.id) {
+  const id = req.body.user.id;
+  const reqBody = req.body;
+  console.log(reqBody)
     try {
       const userUpdated = await User.findByIdAndUpdate(
-        req.params.id,
+        id,
         {
-          $set: req.body,
+          $set: req.body.user,
         },
         { new: true }
       );
@@ -19,9 +21,7 @@ export const updateUser = async (req, res, next) => {
       res.status(500).json({ error: "Something went wrong" });
       next(error);
     }
-  } else {
-    return next(createError(403, "You can update only on your account!"));
-  }
+
 };
 
 //DELETE USER USING PASSWORD VERIFICATION
