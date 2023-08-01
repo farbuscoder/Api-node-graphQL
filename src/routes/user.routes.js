@@ -37,9 +37,9 @@ router.put("/like/:paletteId", likeAPalette);
 router.put("/favorites/:paletteId", addOrRemoveFromFavorites);
 
 //Get favorites from user
-router.get("/get/favorites/:id", getFavorites);
+router.get("/get/favorites", getFavorites);
 
 //Get saved palettes from user
-router.get("/get/saved/:id", getSavedPalettes);
+router.get("/get/saved", getSavedPalettes);
 
 export default router;
