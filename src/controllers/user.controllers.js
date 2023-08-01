@@ -166,8 +166,8 @@ export const addOrRemoveFromFavorites = async (req, res, next) => {
 //GET FAVORITES
 
 export const getFavorites = async (req, res, next) => {
-  const userId = req.body.user.id;
-
+  console.log(req.data)
+  const userId = req.params.userId;
   try {
     const user = await User.findById(userId);
     const favoritesFromUser = user.favs;
@@ -191,7 +191,7 @@ export const getFavorites = async (req, res, next) => {
 //Get save palettes from user
 
 export const getSavedPalettes = async (req, res, next) => {
-  const userId = req.body.user.id;
+  const userId = req.params.userId;
 
   try {
     const savedPalettes = await Palette.find({ userId: userId });
